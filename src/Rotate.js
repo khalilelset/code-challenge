@@ -1,4 +1,3 @@
-// Rotate.js
 import React from "react";
 
 function Rotate({ handleRotate }) {

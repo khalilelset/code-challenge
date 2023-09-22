@@ -1,6 +1,6 @@
 import { Cancel } from "@mui/icons-material";
 import CropIcon from "@mui/icons-material/Crop";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./utils/cropImage";
 
-const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
+const CropEasy = ({ previewImg, setcrop, setPreviewImg }) => {
   const [photoURL, setPhotoURL] = useState(previewImg);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -22,9 +22,11 @@ const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
   const cropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
+  //for display previous page
   const apply = () => {
     setcrop(false);
   };
+  //apply the croped
   const cropImage = async () => {
     try {
       const { file, url } = await getCroppedImg(
@@ -33,11 +35,13 @@ const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
         rotation
       );
       setPhotoURL(url);
-      
+      //set the last update of image
       setPreviewImg(file);
       //setCroppedImageUrl(file);
       //console.log(file);
       //console.log(URL.createObjectURL(file));
+
+      //return the setting
       setZoom(1);
       setRotation(0);
     } catch (error) {
@@ -100,7 +104,13 @@ const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
             flexWrap: "wrap",
           }}
         >
-          <Button variant="outlined"  onClick={()=>{setcrop(false)}} startIcon={<Cancel />}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setcrop(false);
+            }}
+            startIcon={<Cancel />}
+          >
             Cancel
           </Button>
           <Button
@@ -110,7 +120,11 @@ const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
           >
             Crop
           </Button>
-          <Button variant="contained" startIcon={<CheckCircleIcon />} onClick={apply}>
+          <Button
+            variant="contained"
+            startIcon={<CheckCircleIcon />}
+            onClick={apply}
+          >
             APPLY
           </Button>
         </Box>

@@ -1,4 +1,3 @@
-// Controls.js
 import React from "react";
 
 function Controls({ resetFilter, fileInputRef, loadImage, saveImage }) {

@@ -13,12 +13,12 @@ const filterOptions = [
 ];
 
 function App() {
-  const [crop, setcrop] = useState(false);
-  const [previewImg, setPreviewImg] = useState(null);
-  const [category, setCategory] = useState("");
+  const [crop, setcrop] = useState(false); //to know if user click in crop button
+  const [previewImg, setPreviewImg] = useState(null); //when image selected
+  const [category, setCategory] = useState(""); //if user choose the category
   const [activeFilter, setActiveFilter] = useState("brightness");
-  const [sliderValue, setSliderValue] = useState(100);
-  const [editedImage, setEditedImage] = useState(null);
+  const [sliderValue, setSliderValue] = useState(100); // value in range of all filter button
+  const [editedImage, setEditedImage] = useState(null); // set the last edit of the img
   const [brightness, setBrightness] = useState("100");
   const [saturation, setSaturation] = useState("100");
   const [grayscale, setGrayscale] = useState("0");
@@ -27,7 +27,7 @@ function App() {
   const [flipVertical, setFlipVertical] = useState(1);
   const fileInputRef = useRef(null);
   const previewImgRef = useRef(null);
-
+  //when i selected image
   const loadImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -35,35 +35,13 @@ function App() {
 
     resetFilter();
   };
+
+  // edit the detail of image
   const applyFilter = () => {
     previewImgRef.current.style.filter = `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%)`;
     previewImgRef.current.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`;
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const image = new Image();
-    image.onload = () => {
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
-
-      ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%)`;
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      if (rotate !== 0) {
-        ctx.rotate((rotate * Math.PI) / 180);
-      }
-      ctx.scale(flipHorizontal, flipVertical);
-      ctx.drawImage(
-        image,
-        -canvas.width / 2,
-        -canvas.height / 2,
-        canvas.width,
-        canvas.height
-      );
-
-      // Convert the edited image to a data URL and set it in the state
-      setEditedImage(canvas.toDataURL());
-    };
   };
-
+  //restart all setting
   const resetFilter = () => {
     setBrightness("100");
     setSaturation("100");
@@ -125,6 +103,7 @@ function App() {
 
   ////////////////////////////////////////////////////////
 
+  // this function for when i click crop ... make cropeasy component get the last update of the image
   const UpdatedImage = () => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -146,7 +125,7 @@ function App() {
         canvas.width,
         canvas.height
       );
-      // Convert the edited image to a data URL and set it in the state
+      // Convert the edited image to a data URL and set it in the state and put it in to state for crop component
       setEditedImage(canvas.toDataURL());
     };
 
@@ -154,8 +133,9 @@ function App() {
   };
 
   const handleFilterClick = (option) => {
+    //for make button activate have special design
     setActiveFilter(option.id);
-
+    //set current value
     switch (option.id) {
       case "brightness":
         setSliderValue(brightness);
@@ -198,8 +178,8 @@ function App() {
     <div className={`container ${!previewImg ? "disable" : ""}`}>
       <h2 className="mb-6">challenge Image Editor</h2>
 
-      {category ? (
-        !crop ? (
+      {category ? ( //to display category component
+        !crop ? ( //to display cropeasy component
           <>
             <div className="wrapper">
               <div className="editor-panel">

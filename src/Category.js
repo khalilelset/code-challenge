@@ -4,8 +4,8 @@ import axios from "axios";
 
 const LabeledInput = ({ setCategory }) => {
   const [input, setinput] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [message, setMessage] = useState("");
+  const [selectedOption, setSelectedOption] = useState(""); //for know if he click "other" operation
+  const [message, setMessage] = useState(""); // for error handler
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
     setinput(e.target.value);
@@ -18,7 +18,7 @@ const LabeledInput = ({ setCategory }) => {
     setCategory(input);
     if (input) {
       axios
-        .post("http://localhost:3001/create-folder", { input })
+        .post("http://localhost:3001/create-folder", { input }) // send name of input to create folder in backend
         .then((response) => {
           alert(response.data.message);
         })
