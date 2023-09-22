@@ -6,12 +6,12 @@ function ImagePreview({ previewImg,previewImgRef, applyFilter }) {
 
   useEffect(() => {
     if (!previewImgRef.current) {
-      console.error("Image element not found.");
+      console.log("Image element not found.");
       return;
     }
 
     if (!previewImg) {
-      console.error("Preview image is missing.");
+      alert("Preview image is missing.");
       return;
     }
     applyFilter();

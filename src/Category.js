@@ -5,7 +5,7 @@ import axios from "axios";
 const LabeledInput = ({ setCategory }) => {
   const [input, setinput] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
     setinput(e.target.value);
@@ -15,20 +15,24 @@ const LabeledInput = ({ setCategory }) => {
     }
   };
   const CreateFolder = () => {
-    setCategory(input)
+    setCategory(input);
     if (input) {
-      axios.post('http://localhost:3001/create-folder', { input })
-        .then((response) => {console.log(response.data.message);
+      axios
+        .post("http://localhost:3001/create-folder", { input })
+        .then((response) => {
+          alert(response.data.message);
         })
-        .catch((error) => {setMessage('Folder creation failed.');});
+        .catch((error) => {
+          setMessage("Folder creation failed.");
+        });
     } else {
-      setMessage('Please enter a category.');
+      setMessage("Please enter a category.");
     }
   };
   return (
     <div className="mb-4">
       <h1 className="text-5xl font-bold text-blue-600 mb-4 py-8 alig text-center">
-        Welcome 
+        Welcome
       </h1>
       <label className="block text-gray-700 text-sm font-bold mb-2 pb-2">
         Categorization your image
@@ -61,10 +65,7 @@ const LabeledInput = ({ setCategory }) => {
         </>
       )}
 
-<p className="text-red-700 text-sm py-3">
-  {message}
-</p>
-
+      <p className="text-red-700 text-sm py-3">{message}</p>
 
       <button
         className={`mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded `}
@@ -77,5 +78,3 @@ const LabeledInput = ({ setCategory }) => {
 };
 
 export default LabeledInput;
-
-

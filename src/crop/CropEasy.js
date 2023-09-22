@@ -100,7 +100,7 @@ const CropEasy = ({ previewImg, setcrop , setPreviewImg}) => {
             flexWrap: "wrap",
           }}
         >
-          <Button variant="outlined" startIcon={<Cancel />}>
+          <Button variant="outlined"  onClick={()=>{setcrop(false)}} startIcon={<Cancel />}>
             Cancel
           </Button>
           <Button

@@ -81,7 +81,6 @@ function App() {
     const ctx = canvas.getContext("2d");
     const image = new Image();
     image.onload = () => {
-      console.log("     ");
       canvas.width = image.naturalWidth;
       canvas.height = image.naturalHeight;
 
@@ -98,31 +97,30 @@ function App() {
         canvas.width,
         canvas.height
       );
-      
+
+      // Convert canvas data to a Blob and then to a File
+      canvas.toBlob((file) => {
+        const imageFile = new File([file], `${previewImg.name.split(" ")[0]}`, {
+          type: previewImg.type,
+        });
+        // Create a FormData object and append the file to it
+        const formData = new FormData();
+        formData.append("editedImage", imageFile);
+        // Send the FormData containing the file to the server using Fetch
+        fetch(`http://localhost:3001/upload-image/${category}`, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+          })
+          .catch((error) => {
+            alert(error.error);
+          });
+      }, "image/jpg");
     };
     image.src = URL.createObjectURL(previewImg);
-    // Convert canvas data to a Blob and then to a File
-    canvas.toBlob((blob) => {
-      const imageFile = new File([blob], `${previewImg.name.split(' ')[0]}`, { type: "image/jpeg" });
-    // Create a FormData object and append the file to it
-    const formData = new FormData();
-    formData.append('editedImage', previewImg);
-    
-    // Send the FormData containing the file to the server using Fetch
-    fetch(`http://localhost:3001/upload-image/${category}`, {
-      method: "POST",
-      body: formData,
-    }, )
-      .then((response) => response.json())
-      .then((data) => {
-       
-        console.log("Image saved:", data);
-      })
-      .catch((error) => {
-        console.error("Error saving image:", error);
-      });
-    });
-    
   };
 
   ////////////////////////////////////////////////////////
@@ -148,7 +146,6 @@ function App() {
         canvas.width,
         canvas.height
       );
-
       // Convert the edited image to a data URL and set it in the state
       setEditedImage(canvas.toDataURL());
     };
